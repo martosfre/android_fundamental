@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Academium</string>
+
+    <!-- Formulario Login -->
+    <string name="frmLogin_usuario">Usuario</string>
+    <string name="frmLogin_clave">Clave</string>
+    <string name="frmLogin_ingresar">Ingresar</string>
+    <string name="frmLogin_mensaje_clave">¿Olvido su contraseña</string>
+    <string name="frmLogin_logo">Logo Academium</string>
+    <string name="frmLogin_usuario_hint"></string>
+    <string name="frmMenu_registrar">Registrar</string>
+    <string name="frmMenu_listar">Listar</string>
+    <string name="frmMenu_reporte">Reporte</string>
+    <string name="frmLogin_men_usuarioNoEncontrado">Usuario no encontrado</string>
+</resources>

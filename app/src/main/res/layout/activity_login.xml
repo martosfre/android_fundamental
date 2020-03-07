@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/azulado"
+    tools:context=".vista.LoginActivity">
+
+    <ImageView
+        android:id="@+id/imgVieLog"
+        android:layout_width="132dp"
+        android:layout_height="128dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="40dp"
+        android:contentDescription="@string/frmLogin_logo"
+        app:layout_constraintBottom_toTopOf="@+id/lblNomUsu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo_academia" />
+
+    <TextView
+        android:id="@+id/lblNomUsu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
+        android:layout_marginLeft="96dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/frmLogin_usuario"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintBottom_toTopOf="@+id/txtNomUsu"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/txtNomUsu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
+        android:layout_marginLeft="96dp"
+        android:layout_marginBottom="32dp"
+        android:autofillHints="@string/app_name"
+        android:ems="10"
+        android:hint="@string/frmLogin_usuario_hint"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/lblConUsu"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/lblConUsu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
+        android:layout_marginLeft="96dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/frmLogin_clave"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintBottom_toTopOf="@+id/txtConUsu"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/txtConUsu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
+        android:layout_marginLeft="96dp"
+        android:layout_marginBottom="68dp"
+        android:autofillHints="@string/app_name"
+        android:ems="10"
+        android:hint="@string/frmLogin_usuario_hint"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toTopOf="@+id/btnLog"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/lblOlvCon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="176dp"
+        android:autoLink="web"
+        android:text="@string/frmLogin_mensaje_clave"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnLog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:onClick="validarUsuario"
+        android:text="@string/frmLogin_ingresar"
+        app:layout_constraintBottom_toTopOf="@+id/lblOlvCon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
