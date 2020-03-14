@@ -12,4 +12,26 @@
     <string name="frmMenu_listar">Listar</string>
     <string name="frmMenu_reporte">Reporte</string>
     <string name="frmLogin_men_usuarioNoEncontrado">Usuario no encontrado</string>
+    <string name="frm_menu_titulo">Menú Estudiante</string>
+    <string name="title_activity_mapa_estudiante">Map</string>
+
+    <!--Formulario Estudiante -->
+    <string name="frmEstudiante_nombre">Nombres</string>
+    <string name="frmEstudiante_apellido">Apellidos</string>
+    <string name="frmEstudiante_correo">Correo</string>
+    <string name="frmEstudiante_telefono">Teléfono</string>
+    <string name="frmEstudiante_fechaNacimiento">Fecha Nacimiento</string>
+    <string name="frmEstudiante_btnGuardar">Guardar</string>
+    <string name="frmListaEstudiante_titulo">Lista de Estudiantes</string>
+
+    <array name="colegios">
+        <item name="1">SPP</item>
+        <item name="2">Mejia</item>
+        <item name="3">Montúfar</item>
+    </array>
+    <string-array name="colegiosDos">
+        <item>SPP</item>
+        <item>Mejía</item>
+        <item>Móntufar</item>
+    </string-array>
 </resources>

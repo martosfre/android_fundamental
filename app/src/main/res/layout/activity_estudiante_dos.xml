@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/azulado"
+    tools:context=".vista.EstudianteDosActivity">
+
+    <ImageView
+        android:id="@+id/imgFotEst"
+        android:layout_width="118dp"
+        android:layout_height="99dp"
+        android:layout_marginTop="80dp"
+        android:contentDescription="@string/frmLogin_logo"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/txtNomEst"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/logo_academia" />
+
+    <EditText
+        android:id="@+id/txtNomEst"
+        android:layout_width="320dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="20dp"
+        android:autofillHints="@string/frmEstudiante_nombre"
+        android:ems="10"
+        android:hint="@string/frmEstudiante_nombre"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/txtApeEst"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/txtApeEst"
+        android:layout_width="320dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="20dp"
+        android:autofillHints="@string/frmEstudiante_apellido"
+        android:ems="10"
+        android:hint="@string/frmEstudiante_apellido"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/txtCorEst"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/txtCorEst"
+        android:layout_width="320dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="20dp"
+        android:autofillHints="@string/frmEstudiante_correo"
+        android:ems="10"
+        android:hint="@string/frmEstudiante_correo"
+        android:inputType="textPersonName|textEmailAddress"
+        app:layout_constraintBottom_toTopOf="@+id/txtTelEst"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/txtTelEst"
+        android:layout_width="320dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="20dp"
+        android:autofillHints="@string/frmEstudiante_telefono"
+        android:ems="10"
+        android:hint="@string/frmEstudiante_telefono"
+        android:inputType="number|textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/txtFecNacEst"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/txtFecNacEst"
+        android:layout_width="320dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="36dp"
+        android:autofillHints="@string/frmEstudiante_fechaNacimiento"
+        android:ems="10"
+        android:hint="@string/frmEstudiante_fechaNacimiento"
+        android:inputType="date|number|textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/spiColEst"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnGuaEst"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="52dp"
+        android:onClick="guardarEstudiante"
+        android:text="@string/frmEstudiante_btnGuardar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Spinner
+        android:id="@+id/spiColEst"
+        android:layout_width="311dp"
+        android:layout_height="28dp"
+        android:layout_marginBottom="40dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnGuaEst"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
