@@ -68,7 +68,7 @@ public class EstudianteTrs {
     public String eliminarEstudiante(Estudiante estudiante){
         String mensaje = null;
         int posRec = listaEstudiantes.indexOf(estudiante);
-        if(posRec > 0) {
+        if(posRec >= 0) {
             listaEstudiantes.remove(posRec);
             mensaje = "Estudiante eliminado correctamente";
         }else{
