@@ -7,6 +7,8 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -25,6 +27,7 @@ import com.matoosfe.academium.control.EstudianteTrs;
 import com.matoosfe.academium.modelo.Estudiante;
 import com.matoosfe.academium.util.SpinnerUtil;
 import com.matoosfe.academium.util.DatePickerFragment;
+import com.matoosfe.academium.util.UtilImage;
 import com.matoosfe.academium.util.Validator;
 
 import java.text.ParseException;
@@ -86,6 +89,14 @@ public class EstudianteActivity extends AppCompatActivity {
                     estudiante.getColegioEst());
             spiColEst.setSelection(posSpi);
 
+            //Imagen
+            imaVieEst.getLayoutParams().width = 150;
+            imaVieEst.getLayoutParams().height = 150;
+
+            Bitmap bitmap = BitmapFactory.decodeByteArray(estudiante.getImagenEst(), 0,
+                    estudiante.getImagenEst().length);
+            imaVieEst.setImageBitmap(bitmap);
+
         }
     }
 
@@ -144,7 +155,7 @@ public class EstudianteActivity extends AppCompatActivity {
             String mensaje = null;
             Estudiante estudianteTmp = new Estudiante(adminEstudiante.generarSecuencia(), txtNomEst.getText().toString(),
                     txtApeEst.getText().toString(), txtCorEst.getText().toString(),
-                    txtTelEst.getText().toString(), fechaNacEst, spiColEst.getSelectedItem().toString());
+                    txtTelEst.getText().toString(), fechaNacEst, spiColEst.getSelectedItem().toString(), null);
 
             //Verificar Estudiante
             verificarCampos(estudianteTmp);
@@ -152,13 +163,15 @@ public class EstudianteActivity extends AppCompatActivity {
             if(estudiante != null){
                 estudiante = new Estudiante(estudiante.getCodEst(), txtNomEst.getText().toString(),
                         txtApeEst.getText().toString(), txtCorEst.getText().toString(),
-                        txtTelEst.getText().toString(), fechaNacEst, spiColEst.getSelectedItem().toString());
+                        txtTelEst.getText().toString(), fechaNacEst, spiColEst.getSelectedItem().toString(),
+                        UtilImage.convertirABytes(imaVieEst));
                 //Enviamos a guardar el estudiante
                 mensaje = adminEstudiante.actualizarEstudiante(estudiante);
             }else{
                 estudiante = new Estudiante(adminEstudiante.generarSecuencia(), txtNomEst.getText().toString(),
                         txtApeEst.getText().toString(), txtCorEst.getText().toString(),
-                        txtTelEst.getText().toString(), fechaNacEst, spiColEst.getSelectedItem().toString());
+                        txtTelEst.getText().toString(), fechaNacEst, spiColEst.getSelectedItem().toString(),
+                        UtilImage.convertirABytes(imaVieEst));
                 //Enviamos a guardar el estudiante
                 mensaje = adminEstudiante.guardarEstudiante(estudiante);
             }

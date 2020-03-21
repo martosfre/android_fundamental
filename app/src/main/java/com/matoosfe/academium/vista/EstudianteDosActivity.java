@@ -71,7 +71,8 @@ public class EstudianteDosActivity extends AppCompatActivity {
         //Creamos estudiante
         Estudiante estudiante = new Estudiante(1, txtNomEst.getText().toString(),
                 txtApeEst.getText().toString(), txtCorEst.getText().toString(),
-                txtTelEst.getText().toString(), fechaNacEst, spiColEst.getSelectedItem().toString());
+                txtTelEst.getText().toString(), fechaNacEst, spiColEst.getSelectedItem().toString(),
+                null);
 
         //Enviamos a guardar el estudiante
         String mensaje = adminEstudiante.guardarEstudiante(estudiante);

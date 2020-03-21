@@ -23,6 +23,8 @@
     <string name="frmEstudiante_fechaNacimiento">Fecha Nacimiento</string>
     <string name="frmEstudiante_btnGuardar">Guardar</string>
     <string name="frmListaEstudiante_titulo">Lista de Estudiantes</string>
+    <string name="frmGeneral_menu_editar">Editar</string>
+    <string name="frmGeneral_menu_eliminar">Eliminar</string>
 
     <array name="colegios">
         <item name="1">SPP</item>

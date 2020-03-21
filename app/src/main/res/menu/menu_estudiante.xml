@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menEdiEst"
+        android:icon="@android:drawable/ic_menu_edit"
+        android:title="@string/frmGeneral_menu_editar" />
+    <item
+        android:id="@+id/menEliEst"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="@string/frmGeneral_menu_eliminar" />
+</menu>

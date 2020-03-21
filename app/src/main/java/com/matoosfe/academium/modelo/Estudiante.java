@@ -21,17 +21,19 @@ public class Estudiante implements Parcelable {
     private String telefonoEst;
     private Date fechaNacEst;
     private String colegioEst;
+    private byte[] imagenEst;
 
     public Estudiante(int codEst, String nombreEst, String apellidoEst,
                       String correoEst, String telefonoEst, Date fechaNacEst,
-                      String colegio) {
+                      String colegioEst, byte[] imagenEst) {
         this.codEst = codEst;
         this.nombreEst = nombreEst;
         this.apellidoEst = apellidoEst;
         this.correoEst = correoEst;
         this.telefonoEst = telefonoEst;
         this.fechaNacEst = fechaNacEst;
-        this.colegioEst = colegio;
+        this.colegioEst = colegioEst;
+        this.imagenEst = imagenEst;
     }
 
     public Estudiante(Parcel parcel) {
@@ -42,6 +44,10 @@ public class Estudiante implements Parcelable {
         this.telefonoEst = parcel.readString();
         this.fechaNacEst = new Date(parcel.readLong());
         this.colegioEst = parcel.readString();
+        byte[] imagenTmp = new byte[parcel.readInt()];
+        parcel.readByteArray(imagenTmp);
+        this.imagenEst = imagenTmp;
+
     }
 
     public int getCodEst() {
@@ -100,6 +106,15 @@ public class Estudiante implements Parcelable {
         this.colegioEst = colegioEst;
     }
 
+
+    public byte[] getImagenEst() {
+        return imagenEst;
+    }
+
+    public void setImagenEst(byte[] imagenEst) {
+        this.imagenEst = imagenEst;
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -120,6 +135,9 @@ public class Estudiante implements Parcelable {
         parcel.writeString(getTelefonoEst());
         parcel.writeLong(getFechaNacEst().getTime());
         parcel.writeString(getColegioEst());
+        parcel.writeInt(getImagenEst().length);
+        parcel.writeByteArray(getImagenEst());
+
     }
 
     public static final Parcelable.Creator<Estudiante> CREATOR = new Parcelable.Creator<Estudiante>() {
