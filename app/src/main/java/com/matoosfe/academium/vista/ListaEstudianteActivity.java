@@ -2,8 +2,11 @@ package com.matoosfe.academium.vista;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -35,5 +38,17 @@ public class ListaEstudianteActivity extends AppCompatActivity {
         ArrayAdapter<Estudiante> estudianteArrayAdapter = new ArrayAdapter<Estudiante>(getApplicationContext(),
                 android.R.layout.simple_list_item_1, listaEstudiantes);
         lisVieEst.setAdapter(estudianteArrayAdapter);
+        //Método para seleccionar un elemento la lista
+        lisVieEst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+                Estudiante estudianteRec = (Estudiante) adapterView.getItemAtPosition(position);
+
+                Intent intRegEst = new Intent(getApplicationContext(), EstudianteActivity.class);
+                intRegEst.putExtra("estudiante", estudianteRec);
+                startActivity(intRegEst);
+            }
+        });
     }
 }

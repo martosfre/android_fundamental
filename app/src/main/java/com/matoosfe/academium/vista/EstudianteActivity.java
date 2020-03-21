@@ -2,17 +2,17 @@ package com.matoosfe.academium.vista;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,10 +23,13 @@ import com.google.gson.Gson;
 import com.matoosfe.academium.R;
 import com.matoosfe.academium.control.EstudianteTrs;
 import com.matoosfe.academium.modelo.Estudiante;
+import com.matoosfe.academium.util.SpinnerUtil;
 import com.matoosfe.academium.util.DatePickerFragment;
+import com.matoosfe.academium.util.Validator;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -36,15 +39,29 @@ import java.util.List;
 public class EstudianteActivity extends AppCompatActivity {
 
     private ImageView imaVieEst;
-    public static EditText txtFecNacEst;
+    private EditText txtNomEst;
+    private EditText txtApeEst;
+    private EditText txtCorEst;
+    private EditText txtTelEst;
+    public EditText txtFecNacEst;
+    private Spinner spiColEst;
+
+    private Estudiante estudiante;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_estudiante);
 
+        //Recuperando los componentes
         imaVieEst = findViewById(R.id.imgFotEst);
         txtFecNacEst = findViewById(R.id.txtFecNacEst);
+        txtNomEst = findViewById(R.id.txtNomEst);
+        txtApeEst = findViewById(R.id.txtApeEst);
+        txtCorEst = findViewById(R.id.txtCorEst);
+        txtTelEst = findViewById(R.id.txtTelEst);
+        spiColEst = findViewById(R.id.spiColEst);
 
         //Cargar Foto
         imaVieEst.setOnClickListener(new View.OnClickListener() {
@@ -53,6 +70,23 @@ public class EstudianteActivity extends AppCompatActivity {
                 cargarImagen();
             }
         });
+
+        //Recuperar valores del Intent
+        Intent intLisEst = getIntent();
+        estudiante = intLisEst.getParcelableExtra("estudiante");
+        if(estudiante != null){
+            //Poblar los valores
+            txtNomEst.setText(estudiante.getNombreEst());
+            txtApeEst.setText(estudiante.getApellidoEst());
+            txtCorEst.setText(estudiante.getCorreoEst());
+            txtTelEst.setText(estudiante.getTelefonoEst());
+            txtFecNacEst.setText(new SimpleDateFormat("yyyy-MM-dd").format(estudiante.getFechaNacEst()));
+            //Colegio
+            int posSpi = SpinnerUtil.getPositionByElement((BaseAdapter) spiColEst.getAdapter(),
+                    estudiante.getColegioEst());
+            spiColEst.setSelection(posSpi);
+
+        }
     }
 
     /**
@@ -88,52 +122,75 @@ public class EstudianteActivity extends AppCompatActivity {
      * Método para guardar un estudiante
      * @param view
      */
-    public void guardarEstudiante(View view) throws ParseException {
-        //Recuperando los componentes
-        EditText txtNomEst = findViewById(R.id.txtNomEst);
-        EditText txtApeEst = findViewById(R.id.txtApeEst);
-        EditText txtCorEst = findViewById(R.id.txtCorEst);
-        EditText txtTelEst = findViewById(R.id.txtTelEst);
-        Spinner spiColEst = findViewById(R.id.spiColEst);
+    public void guardarEstudiante(View view) {
+        try {
 
-        //Llamo al controlador
-        EstudianteTrs adminEstudiante = new EstudianteTrs();
 
-        //Formato a la fecha
-        SimpleDateFormat formatoFec = new SimpleDateFormat("yyyy-MM-dd");
-        Date fechaNacEst = formatoFec.parse(txtFecNacEst.getText().toString());
+            //Llamo al controlador
+            EstudianteTrs adminEstudiante = new EstudianteTrs();
 
-        //Creamos estudiante
-        Estudiante estudiante = new Estudiante(1, txtNomEst.getText().toString(),
-                txtApeEst.getText().toString(), txtCorEst.getText().toString(),
-                txtTelEst.getText().toString(), fechaNacEst, spiColEst.getSelectedItem().toString());
+            //Formato a la fecha
+            SimpleDateFormat formatoFec = new SimpleDateFormat("yyyy-MM-dd");
+            Date fechaNacEst = null;
+            try {
+                fechaNacEst = formatoFec.parse(txtFecNacEst.getText().toString());
+            } catch (ParseException e) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(1980, 4, 27);
+                fechaNacEst = calendar.getTime();
+            }
 
-        //Enviamos a guardar el estudiante
-        String mensaje = adminEstudiante.guardarEstudiante(estudiante);
+            //Creamos estudiante o actualizamos
+            String mensaje = null;
+            Estudiante estudianteTmp = new Estudiante(adminEstudiante.generarSecuencia(), txtNomEst.getText().toString(),
+                    txtApeEst.getText().toString(), txtCorEst.getText().toString(),
+                    txtTelEst.getText().toString(), fechaNacEst, spiColEst.getSelectedItem().toString());
 
-        //Recuperamos la lista de estudiantes para guardar en Memoria
-        List<Estudiante> estudiantes = adminEstudiante.obtenerEstudiantes();
+            //Verificar Estudiante
+            verificarCampos(estudianteTmp);
 
-        //Almacenamos en memoria solo para este app
-        SharedPreferences preferences = getSharedPreferences("bdd",MODE_PRIVATE);
+            if(estudiante != null){
+                estudiante = new Estudiante(estudiante.getCodEst(), txtNomEst.getText().toString(),
+                        txtApeEst.getText().toString(), txtCorEst.getText().toString(),
+                        txtTelEst.getText().toString(), fechaNacEst, spiColEst.getSelectedItem().toString());
+                //Enviamos a guardar el estudiante
+                mensaje = adminEstudiante.actualizarEstudiante(estudiante);
+            }else{
+                estudiante = new Estudiante(adminEstudiante.generarSecuencia(), txtNomEst.getText().toString(),
+                        txtApeEst.getText().toString(), txtCorEst.getText().toString(),
+                        txtTelEst.getText().toString(), fechaNacEst, spiColEst.getSelectedItem().toString());
+                //Enviamos a guardar el estudiante
+                mensaje = adminEstudiante.guardarEstudiante(estudiante);
+            }
 
-        //Recuperamos el Editor
-        SharedPreferences.Editor editor = preferences.edit();
 
-        //Transformando el objeto a Cadena
-        Gson gson = new Gson();
-        String estudianteCadena = gson.toJson(estudiantes);
-        editor.putString("listaEstudiantes", estudianteCadena);
+            //Recuperamos la lista de estudiantes para guardar en Memoria
+            List<Estudiante> estudiantes = adminEstudiante.obtenerEstudiantes();
 
-        //Guardamos en memoria.
-        editor.commit();
+            //Almacenamos en memoria solo para este app
+            SharedPreferences preferences = getSharedPreferences("bdd",MODE_PRIVATE);
 
-        Toast.makeText(getApplicationContext(), mensaje,
-                Toast.LENGTH_SHORT).show();
+            //Recuperamos el Editor
+            SharedPreferences.Editor editor = preferences.edit();
 
-        //Dirigirnos a la otra Pantalla
-        Intent intLisEst = new Intent(getApplicationContext(), ListaEstudianteActivity.class);
-        startActivity(intLisEst);
+            //Transformando el objeto a Cadena
+            Gson gson = new Gson();
+            String estudianteCadena = gson.toJson(estudiantes);
+            editor.putString("listaEstudiantes", estudianteCadena);
+
+            //Guardamos en memoria.
+            editor.commit();
+
+            Toast.makeText(getApplicationContext(), mensaje,
+                    Toast.LENGTH_SHORT).show();
+
+            //Dirigirnos a la otra Pantalla
+            Intent intLisEst = new Intent(getApplicationContext(), MenuActivity.class);
+            startActivity(intLisEst);
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "No se pudo guardar el estudiante:" + e.getMessage(),
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
@@ -151,6 +208,47 @@ public class EstudianteActivity extends AppCompatActivity {
         });
 
         dialogoFecha.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    /**
+     * Método para verificar los campos en un formulario
+     * @param estudiante
+     * @throws Exception
+     */
+    private void verificarCampos(Estudiante estudiante) throws Exception {
+        //1. Validar Requeridos
+        if(estudiante.getNombreEst().equals("")){
+            txtNomEst.setError("Nombre requerido");
+            txtNomEst.setFocusable(true);
+        }
+
+        if(estudiante.getApellidoEst().equals("")){
+            txtApeEst.setError("Apellido requerido");
+            txtApeEst.setFocusable(true);
+        }
+
+        if(estudiante.getCorreoEst().equals("")){
+            txtCorEst.setError("Correo requerido");
+            txtCorEst.setFocusable(true);
+        }
+
+        if(estudiante.getTelefonoEst().equals("")){
+            txtTelEst.setError("Teléfono requerido");
+            txtTelEst.setFocusable(true);
+        }
+
+        //2. Validar Formatos
+        if(Validator.validarCorreo(estudiante.getCorreoEst()) == false){
+            throw new Exception("Correo incorrecto");
+        }
+
+        if(!Validator.validarNumeroTelefonico(estudiante.getTelefonoEst())){
+            throw new Exception("Teléfono incorrecto");
+        }
+
+        if(!Validator.validarFechaNacimiento(estudiante.getFechaNacEst())){
+            throw new Exception("Fecha de Nacimiento incorrecta");
+        }
     }
 
 }
